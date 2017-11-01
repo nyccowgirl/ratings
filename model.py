@@ -18,7 +18,7 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    email = db.Column(db.String(64), nullable=True)
+    email = db.Column(db.String(64), nullable=True, unique=True)
     password = db.Column(db.String(64), nullable=True)
     age = db.Column(db.Integer, nullable=True)
     zipcode = db.Column(db.String(15), nullable=True)
@@ -29,7 +29,6 @@ class User(db.Model):
         return ("<User user_id={} email={} password={} age={} zipcode={}>".format(self.user_id, self.email, self.password, self.age, self.zipcode))
 
 
-
 # Put your Movie and Rating model classes here.
 
 class Rating(db.Model):
@@ -38,9 +37,12 @@ class Rating(db.Model):
     __tablename__ = "ratings"
 
     rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, nullable=False)
-    movie_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.movie_id'), nullable=False)
     score = db.Column(db.Integer, nullable=False)
+
+    user = db.relationship('User', backref=db.backref('ratings', order_by=rating_id))
+    movie = db.relationship('Movie')
 
 
 class Movie(db.Model):
@@ -53,6 +55,7 @@ class Movie(db.Model):
     released_at = db.Column(db.DateTime, nullable=True)
     imdb_url = db.Column(db.String(255), nullable=True)
 
+    ratings = db.relationship('Rating')
 
 
 ##############################################################################

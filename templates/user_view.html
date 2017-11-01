@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Users</h1>
+
+<ul>
+{% for user in jinja_user %}
+<li>{{ user.email }} ({{ user.user_id }})
+{% endfor %}
+</ul>
+
+
+
+{% endblock %}

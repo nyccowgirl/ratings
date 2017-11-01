@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action='/registration' method='post'>
+Email: <input type='text' id='form_email' name='form_email'>
+<br>
+Password: <input type='text' id='form_pw' name='form_pw'>
+<br>
+Zip: <input type='text' id='form_zip' name='form_zip'>
+<br>
+Age: <input type='text' id='form_age' name='form_age'>
+<input type='submit' id='submit_form' name='Submit'>
+</form>
+
+
+{% endblock %}
