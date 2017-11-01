@@ -28,6 +28,20 @@ def index():
     # return a
     return render_template("homepage.html")
 
+@app.route('/logout')
+def logout():
+    """ Logs user out """
+
+    # need to add a button and some dynamic javascript here to 
+    # change to login 
+
+    flash("You are logged out. Congrats!")
+
+    session.clear()
+
+    return redirect("/")
+
+
 @app.route("/users")
 def user_list():
     """ Displays list of users by email and user_id). """
