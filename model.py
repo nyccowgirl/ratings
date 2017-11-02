@@ -42,7 +42,7 @@ class Rating(db.Model):
     score = db.Column(db.Integer, nullable=False)
 
     user = db.relationship('User', backref=db.backref('ratings', order_by=rating_id))
-    movie = db.relationship('Movie')
+    movie = db.relationship('Movie', backref=db.backref('ratings', order_by=rating_id))
 
 
 class Movie(db.Model):
@@ -55,7 +55,7 @@ class Movie(db.Model):
     released_at = db.Column(db.DateTime, nullable=True)
     imdb_url = db.Column(db.String(255), nullable=True)
 
-    ratings = db.relationship('Rating')
+    # ratings = db.relationship('Rating')
 
 
 ##############################################################################

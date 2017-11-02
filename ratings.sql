@@ -1952,7 +1952,6 @@ COPY ratings (rating_id, user_id, movie_id, score) FROM stdin;
 88	42	403	3
 89	11	111	4
 90	95	625	4
-91	8	338	4
 92	162	25	4
 93	87	1016	4
 94	279	154	5
@@ -2378,7 +2377,6 @@ COPY ratings (rating_id, user_id, movie_id, score) FROM stdin;
 514	63	762	3
 515	11	732	3
 516	92	168	4
-517	8	550	3
 518	307	174	4
 519	303	200	4
 520	256	849	2
@@ -2544,7 +2542,6 @@ COPY ratings (rating_id, user_id, movie_id, score) FROM stdin;
 680	5	225	2
 681	22	128	5
 682	311	432	4
-683	8	22	5
 684	276	188	4
 685	222	173	5
 686	72	866	4
@@ -11861,7 +11858,6 @@ COPY ratings (rating_id, user_id, movie_id, score) FROM stdin;
 9997	178	195	4
 9998	321	527	3
 9999	337	742	5
-10000	90	190	5
 10001	56	189	4
 10002	325	403	2
 10003	336	845	1
@@ -101861,6 +101857,11 @@ COPY ratings (rating_id, user_id, movie_id, score) FROM stdin;
 99997	276	1090	1
 99998	13	225	2
 99999	12	203	3
+100001	8	498	1
+91	8	338	5
+517	8	550	5
+683	8	22	2
+100002	8	386	3
 \.
 
 
@@ -101868,7 +101869,7 @@ COPY ratings (rating_id, user_id, movie_id, score) FROM stdin;
 -- Name: ratings_rating_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user
 --
 
-SELECT pg_catalog.setval('ratings_rating_id_seq', 99999, true);
+SELECT pg_catalog.setval('ratings_rating_id_seq', 100002, true);
 
 
 --
@@ -101883,7 +101884,6 @@ COPY users (user_id, email, password, age, zipcode) FROM stdin;
 5	\N	\N	33	15213
 6	\N	\N	42	98101
 7	\N	\N	57	91344
-8	\N	\N	36	05201
 9	\N	\N	29	01002
 10	\N	\N	53	90703
 11	\N	\N	39	30329
@@ -102821,6 +102821,12 @@ COPY users (user_id, email, password, age, zipcode) FROM stdin;
 943	\N	\N	22	77841
 945	123@abc.com	lickme	20	12345
 946	balloonicorn@pornhub.com	asslicker	69	69696
+947	nancy@gmail.com	blah	55	55
+948	nancysh	2348	3434	44342
+949	blah@blah.com	blah	23	69696
+950	poo	poo	23	93023
+951	hello	hello	90	hello
+8	blowme@fuckily.com	assisyummy	36	05201
 \.
 
 
@@ -102828,7 +102834,7 @@ COPY users (user_id, email, password, age, zipcode) FROM stdin;
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user
 --
 
-SELECT pg_catalog.setval('users_user_id_seq', 946, true);
+SELECT pg_catalog.setval('users_user_id_seq', 951, true);
 
 
 --

@@ -57,25 +57,53 @@ def user_profile():
 
     user = User.query.filter_by(email=session['email']).first()
     ratings = user.ratings
-    movies = []
+    # movies = []
 
-    for rating_ob in ratings:
-        title = Movie.query.filter_by(movie_id=rating_ob.movie_id).first().title
-        movies.append((title, rating_ob.score))
+    # for rating_ob in ratings:
+    #     title = Movie.query.filter_by(movie_id=rating_ob.movie_id).first().title
+    #     movies.append((title, rating_ob.score))
 
-    return render_template('user.html', jinja_user=user, jinja_movies=movies)
+    return render_template('user.html', jinja_user=user, jinja_ratings=ratings)
 
 
 @app.route("/movies")
 def movie_list():
     """ Displays list of movies. """
 
-    # movies = Movie.query.order_by(Movie.title).all() # this works for list of movies
-    movies = (Movie.query.join('ratings').filter(Movie.movie_id == Rating.movie_id)
-              .order_by(Movie.title).all())
+    movies = Movie.query.order_by(Movie.title).all() # this works for list of movies
+    # movies = (Movie.query.join('ratings').filter(Movie.movie_id == Rating.movie_id)
+    #           .order_by(Movie.title).all())
     # maybe use of eager?
 
     return render_template('movie_view.html', jinja_movies=movies)
+
+@app.route("/movie-info/<movie_id>")
+def movie_details(movie_id):
+    """ Displays ratings for each movie. """
+
+    ratings = Rating.query.filter_by(movie_id=movie_id).all()
+    movie = Movie.query.filter_by(movie_id=movie_id).first()
+
+    return render_template('movie_details.html', jinja_movie=movie, jinja_ratings=ratings)
+
+
+@app.route("/new_score/<movie_id>", methods=['POST'])
+def post_score(movie_id):
+
+    score = request.form.get('new-rating')
+
+    user = User.query.filter_by(email=session['email']).one()
+
+    rating = Rating.query.filter((Rating.movie_id == movie_id), (Rating.user_id == user.user_id)).first()
+
+    if rating:
+        rating.score = score
+    else:
+        db.session.add(Rating(user_id=user.user_id, movie_id=movie_id, score=score))
+
+    db.session.commit()
+
+    return redirect("/")
 
 
 @app.route("/login", methods=['GET'])
@@ -110,12 +138,10 @@ def log_in():
 def register():
     """ Registers user """
 
-    print "\n\n\nbefore registration submission", session
     form_email = request.form.get('form_email')
     form_pw = request.form.get('form_pw')
     form_zip = request.form.get('form_zip')
     form_age = request.form.get('form_age')
-    # return render_template('login.html')
 
     user = User.query.filter_by(email=form_email).first()
 

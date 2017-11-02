@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Movies</h1>
+
+<ul>
+{% for movie in jinja_movies %}
+<li><a href="/movie-info/{{ movie.movie_id }}">{{ movie.title }}</a></li>
+
+{% endfor %}
+</ul>
+
+
+
+{% endblock %}

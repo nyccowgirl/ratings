@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Movie Details</h1>
+<h2>{{ jinja_movie.title }}</h2><br>
+<h2>{{ jinja_movie.released_at }}</h2><br>
+<h2>{{ jinja_movie.imdb_url }}</h2><br>
+
+<form action='/new_score/{{ jinja_movie.movie_id}}' method='POST'>
+    <input type='radio' name='new-rating' value='1'>1<br>
+    <input type='radio' name='new-rating' value='2'>2<br>
+    <input type='radio' name='new-rating' value='3'>3<br>
+    <input type='radio' name='new-rating' value='4'>4<br>
+    <input type='radio' name='new-rating' value='5'>5<br>
+    <input type='submit'>
+</form>
+
+
+<ul>
+{% for rating in jinja_ratings %}
+<li>{{ rating.score }} by {{ rating.user_id}}</li>
+
+{% endfor %}
+</ul>
+
+
+
+{% endblock %}

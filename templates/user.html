@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>User Profile</h1>
+
+<ul>
+
+<li>Age: {{ jinja_user.age }}</li>
+<li>Zipcode: ({{ jinja_user.zipcode }})</li>
+
+</ul>
+<h2>Movies:</h2>
+<table>
+    <tr><th>
+        Movie Title
+    </th><th>
+        Your Rating
+    </th>
+    {% for rating in jinja_ratings %}
+    <tr><td>
+        {{ rating.movie.title }}
+    </td><td>
+        {{ rating.score }}
+    </tr>
+    {% endfor %}
+</table>
+
+
+
+{% endblock %}
