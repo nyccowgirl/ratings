@@ -5,11 +5,12 @@
 <h1>User Profile</h1>
 
 <ul>
-
+<li>ID: {{ jinja_user.user_id }}</li>
 <li>Age: {{ jinja_user.age }}</li>
 <li>Zipcode: ({{ jinja_user.zipcode }})</li>
-
 </ul>
+
+<a href="/movies">Rate more movies</a>
 <h2>Movies:</h2>
 <table>
     <tr><th>
@@ -19,7 +20,7 @@
     </th>
     {% for rating in jinja_ratings %}
     <tr><td>
-        {{ rating.movie.title }}
+        <a href="/movie-info/{{ rating.movie.movie_id }}">{{ rating.movie.title }}</a>
     </td><td>
         {{ rating.score }}
     </tr>

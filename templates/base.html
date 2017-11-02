@@ -1,17 +1,18 @@
 <!doctype html>
 <html>
 <head>
-  <title>Ratings</title>
+  <title>Ratings, where password security is top notch!</title>
 </head>
 
 <body>
-  Ratings
+  Ratings, where password security is top notch!
   <hr>
 {% if session.get('email') %}
-<a href="/logout">Logout</a>
+<a href="/logout">Logout</a> | <a href="/user_profile">View your profile</a>
 {% else %}
 <a href="/login">Log In</a> | <a href="/register">Register</a>
 {% endif %}
+| <A HREF="/">HOME</a>
 
 <ul>
     {% for message in get_flashed_messages() %}

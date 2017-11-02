@@ -42,6 +42,36 @@ def logout():
     return redirect("/")
 
 
+@app.route('/forgotpassword')
+def forgotpassword():
+    """ Reset user password """
+
+    return render_template("forgot-assword.html")
+
+
+@app.route('/forgotpassword', methods=['POST'])
+def change_pw():
+    """ Change user password. """
+
+    email = request.form.get('email')
+    new_pw = request.form.get('password')
+
+
+    user = User.query.filter_by(email=email).first()
+
+    if user is None:
+        flash("You are not registered. Register now!")
+        return redirect("/register")
+    elif (user.email == email):
+        session['email'] = email
+        user.password = new_pw
+        db.session.commit()
+        flash('You are logged in as {}!'.format(session['email']))
+        return redirect("/user_profile")
+    else:
+        print "code is fucked up!"
+
+
 @app.route("/users")
 def user_list():
     """ Displays list of users by email and user_id). """
@@ -103,7 +133,7 @@ def post_score(movie_id):
 
     db.session.commit()
 
-    return redirect("/")
+    return redirect("/user_profile")
 
 
 @app.route("/login", methods=['GET'])
