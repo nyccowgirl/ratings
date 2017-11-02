@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+Forgot your assword?
+Reset it here dummy.
+
+<form action="/forgotpassword" method="POST">
+    Enter your email: <input type="text" name="email"><br>
+    Enter your new ASSword: <input type="text" name="password"> <br>
+    <input type="submit">
+</form>
+
+{% endblock %}

@@ -101862,6 +101862,13 @@ COPY ratings (rating_id, user_id, movie_id, score) FROM stdin;
 517	8	550	5
 683	8	22	2
 100002	8	386	3
+100003	952	780	4
+100004	952	859	5
+100005	945	141	3
+100006	945	535	5
+100007	945	338	3
+100008	945	550	4
+100009	945	314	3
 \.
 
 
@@ -101869,7 +101876,7 @@ COPY ratings (rating_id, user_id, movie_id, score) FROM stdin;
 -- Name: ratings_rating_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user
 --
 
-SELECT pg_catalog.setval('ratings_rating_id_seq', 100002, true);
+SELECT pg_catalog.setval('ratings_rating_id_seq', 100009, true);
 
 
 --
@@ -102827,6 +102834,7 @@ COPY users (user_id, email, password, age, zipcode) FROM stdin;
 950	poo	poo	23	93023
 951	hello	hello	90	hello
 8	blowme@fuckily.com	assisyummy	36	05201
+952	n@gmail.com	123	90	94131
 \.
 
 
@@ -102834,7 +102842,7 @@ COPY users (user_id, email, password, age, zipcode) FROM stdin;
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: user
 --
 
-SELECT pg_catalog.setval('users_user_id_seq', 951, true);
+SELECT pg_catalog.setval('users_user_id_seq', 952, true);
 
 
 --
