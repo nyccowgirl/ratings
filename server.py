@@ -18,7 +18,7 @@ app.secret_key = "ABC"
 # Normally, if you use an undefined variable in Jinja2, it fails
 # silently. This is horrible. Fix this so that, instead, it raises an
 # error.
-app.jinja_env.undefined = StrictUndefined  
+app.jinja_env.undefined = StrictUndefined
 
 
 @app.route('/')
@@ -46,7 +46,7 @@ def logout():
 def user_list():
     """ Displays list of users by email and user_id). """
 
-    users = User.query.order_by(email=session['email']).all()
+    users = User.query.order_by(User.email).all()
 
     return render_template('user_view.html', jinja_user=users)
 
@@ -61,7 +61,7 @@ def user_profile():
 
     for rating_ob in ratings:
         title = Movie.query.filter_by(movie_id=rating_ob.movie_id).first().title
-        movies.append((title,rating_ob.score))
+        movies.append((title, rating_ob.score))
 
     return render_template('user.html', jinja_user=user, jinja_movies=movies)
 
@@ -70,7 +70,10 @@ def user_profile():
 def movie_list():
     """ Displays list of movies. """
 
-    movies = Movie.query.order_by(title).all()
+    # movies = Movie.query.order_by(Movie.title).all() # this works for list of movies
+    movies = (Movie.query.join('ratings').filter(Movie.movie_id == Rating.movie_id)
+              .order_by(Movie.title).all())
+    # maybe use of eager?
 
     return render_template('movie_view.html', jinja_movies=movies)
 
@@ -96,11 +99,7 @@ def log_in():
         return redirect("/register")
     elif (user.email == form_email) and (user.password == form_pw):
         session['email'] = form_email
-        print session
         flash('You are logged in as {}!'.format(session['email']))
-        print "\n\n\n"
-        print user.email, user.password
-        print "\n\n\n"
         return redirect("/user_profile")
     else:
         flash('Wrong password, dummy! Try again')
@@ -124,7 +123,7 @@ def register():
         db.session.add(User(email=form_email, password=form_pw, age=form_age, zipcode=form_zip))
         db.session.commit()
         session['email'] = form_email
-        # user = User.query.filter_by(email=form_email).first()
+        flash('Registration confirmed!')
         return redirect("/user_profile")
     # elif (user.email == form_email) and (user.password == form_pw):
     #     flash('You are already in our system and logged in as {}!'.format(session['email']))
@@ -132,16 +131,6 @@ def register():
     else:
         flash('You are already in our system, please log in.')
         return redirect("/login")
-
-
-
-    print "\n\n\nbefore cookie initiated", session
-    session['email'] = form_email
-    print "\n\n\nafter",session
-
-    flash('Registration confirmed!')
-
-    return redirect("/")
 
 
 @app.route("/register", methods=['GET'])
@@ -162,6 +151,4 @@ if __name__ == "__main__":
     # Use the DebugToolbar
     DebugToolbarExtension(app)
 
-
-    
     app.run(port=5000, host='0.0.0.0')  # Good thing to put into your code
