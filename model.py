@@ -1,6 +1,7 @@
 """Models and database functions for Ratings project."""
 
 from flask_sqlalchemy import SQLAlchemy
+import correlation
 
 # This is the connection to the PostgreSQL database; we're getting this through
 # the Flask-SQLAlchemy helper library. On this, we can find the `session`
@@ -28,8 +29,34 @@ class User(db.Model):
 
         return ("<User user_id={} email={} password={} age={} zipcode={}>".format(self.user_id, self.email, self.password, self.age, self.zipcode))
 
+    def similarity(self, other_user):
+        """Return Pearson rating for user compared to other user."""
+
+        curr_user_ratings = {}
+        paired_ratings = []
+
+        for r in self.ratings:
+            curr_user_ratings[r.movie_id] = r
+
+        # For every movie in someone else's rating list, find if you
+        # also have rated that movie. If you do: append your data
+        # to the tuple thingy.
+        for o_r in other_user.ratings:
+            curr_user_r = curr_user_ratings.get(o_r.movie_id)
+
+            # If current user has rated this movie
+            if curr_user_r:
+                paired_ratings.append((curr_user_r.score, o_r.score))
+
+        if paired_ratings:
+            return correlation.pearson(paired_ratings)
+
+        # If there was no overlap in movies rated
+        else:
+            return 0.0
 
 # Put your Movie and Rating model classes here.
+
 
 class Rating(db.Model):
     """Rating information."""

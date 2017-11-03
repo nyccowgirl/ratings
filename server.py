@@ -56,7 +56,6 @@ def change_pw():
     email = request.form.get('email')
     new_pw = request.form.get('password')
 
-
     user = User.query.filter_by(email=email).first()
 
     if user is None:
